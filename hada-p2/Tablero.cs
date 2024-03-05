@@ -50,7 +50,7 @@ namespace Hada
                 Console.WriteLine($"La coordenada ({c.Fila},{c.Columna}) está fuera de las dimensiones del tablero.");
                 return;
             }
-
+            
             Console.WriteLine($"Disparando a la coordenada ({c.Fila},{c.Columna})...");
 
             if (casillasTablero.ContainsKey(c))
