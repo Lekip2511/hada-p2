@@ -90,7 +90,7 @@ namespace Hada
         {
             foreach (var barco in barcos)
             {
-                if (barco.NumDanyos < barco.longitud)
+                if (barco.hundido())
                 {
                     return false;
                 }

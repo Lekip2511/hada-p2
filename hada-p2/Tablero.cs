@@ -21,7 +21,7 @@ namespace Hada
             {
                 if (value < 4 || value > 9)
                 {
-                    throw new ArgumentException("El tamaño del tablero debe estar entre 4 y 9.");
+                    Console.WriteLine("El tamaño del tablero debe estar entre 4 y 9.");
                 }
                 else
                 {
@@ -61,13 +61,13 @@ namespace Hada
                 string nombreBarco = casillasTablero[c];
                 foreach (var barco in barcos)
                 {
-                    if (barco.Name == nombreBarco)
+                    if (barco.Nombre == nombreBarco)
                     {
                         barco.NumDanyos++;
                         if (barco.NumDanyos == barco.CoordenadasBarcos.Count)
                         {
                             barcosEliminados.Add(barco);
-                            Console.WriteLine($"¡Hundido el barco {barco.Name}!");
+                            Console.WriteLine($"¡Hundido el barco {barco.Nombre}!");
                             if (barcosEliminados.Count == barcos.Count)
                             {
                                 OnFinPartida();
@@ -111,7 +111,7 @@ namespace Hada
             {
                 foreach (var coordenada in barco.CoordenadasBarcos.Keys)
                 {
-                    casillasTablero[coordenada] = barco.Name;
+                    casillasTablero[coordenada] = barco.Nombre;
                 }
             }
 

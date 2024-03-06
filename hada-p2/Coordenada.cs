@@ -20,7 +20,7 @@ namespace Hada
             set
             {
                 if (value < 4 || value > 9)
-                    throw new ArgumentException("Coordenada fuera de los límites");
+                    Console.WriteLine("Coordenada fuera de los límites");
                 else
                     fila = value;
             }
@@ -34,7 +34,7 @@ namespace Hada
             set
             {
                 if (value < 4 || value > 9)
-                    throw new ArgumentException("Coordenada fuera de los límites");
+                    Console.WriteLine("Coordenada fuera de los límites");
                 else
                     columna = value;
             }
@@ -54,10 +54,13 @@ namespace Hada
         // Constructor pasando los argumentos como Strings
         public Coordenada(string fila, string columna)
         {
-            if ((!int.TryParse(fila, out int filaInt) || !int.TryParse(columna, out int columnaInt)))       // Sacado del GitHub xd
-                throw new ArgumentException("Los argumentos pasados no son números");
-            Fila = filaInt;
-            Columna = columnaInt;
+            if ((int.TryParse(fila, out int filaInt) && int.TryParse(columna, out int columnaInt)))
+            {      // Sacado del GitHub xd
+                Fila = filaInt;
+                Columna = columnaInt;
+            }
+            else
+                Console.WriteLine("Los argumentos pasados no son números");
         }
         // Constructor copia
         public Coordenada(Coordenada c)
