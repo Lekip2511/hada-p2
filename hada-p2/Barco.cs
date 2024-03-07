@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,28 +13,26 @@ namespace Hada
     {
 
         public event EventHandler Hundimiento;  // Evento de hundimiento
-
-        private String nombre;
-        private int numDanyos;
+        public event EventHandler Tocado;  // Evento de tocado
 
         public Dictionary<Coordenada, String> CoordenadasBarcos { get; private set; }
 
         
         public String Nombre
         {
-            get { return nombre; }
-            set { nombre = value; }
+            get;
+            set;
         }
 
         public int NumDanyos
         {
-            get{ return numDanyos; }
-            set{ numDanyos = value; }
+            get;
+            set;
         }
 
         public Barco(String nombre, int longitud, char orientacion, Coordenada c)
         {
-            this.nombre = nombre;       // La comprobación de esto se hará en la clase Game ***
+            this.Nombre = nombre;       // La comprobación de esto se hará en la clase Game ***
             this.NumDanyos = 0;
             CoordenadasBarcos = new Dictionary<Coordenada, string>();
             int inicFila = c.Fila;
@@ -80,17 +79,14 @@ namespace Hada
                 CoordenadasBarcos[c] += "_T";
                 NumDanyos++;
 
-                if (numDanyos >= CoordenadasBarcos.Count)
-                {
-                    OnHundimiento();
-                }
+                Tocado?.Invoke(this, EventArgs.Empty);                  // Lanzar evento tocado
+
+                if (NumDanyos >= CoordenadasBarcos.Count)
+                    Hundimiento?.Invoke(this, EventArgs.Empty);         // Evento hundimiento
             }
 
         }
-        protected virtual void OnHundimiento()              // Para evento del hundiento
-        {
-            Hundimiento?.Invoke(this, EventArgs.Empty);
-        }
+
 
         public bool hundido()
         {
