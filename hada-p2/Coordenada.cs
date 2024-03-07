@@ -19,10 +19,7 @@ namespace Hada
             }
             set
             {
-                if (value < 4 || value > 9)
-                    Console.WriteLine("Coordenada fuera de los límites");
-                else
-                    fila = value;
+                fila = value;
             }
         }
         public int Columna
@@ -33,10 +30,7 @@ namespace Hada
             }
             set
             {
-                if (value < 4 || value > 9)
-                    Console.WriteLine("Coordenada fuera de los límites");
-                else
-                    columna = value;
+                columna = value;
             }
         }
         // Constructor por defecto
@@ -48,8 +42,8 @@ namespace Hada
         // Constructor por parámetros
         public Coordenada(int fila, int columna)
         {
-            this.Fila = Fila;
-            this.Columna = Columna;
+            this.Fila = fila;
+            this.Columna = columna;
         }
         // Constructor pasando los argumentos como Strings
         public Coordenada(string fila, string columna)
