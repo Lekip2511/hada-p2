@@ -11,13 +11,14 @@ namespace Hada
     public class Barco
     {
 
+        public event EventHandler Hundimiento;  // Evento de hundimiento
+
         private String nombre;
-        private Dictionary<Coordenada, String> etiqueta;
         private int numDanyos;
 
         public Dictionary<Coordenada, String> CoordenadasBarcos { get; private set; }
 
-        public event EventHandler Hundimiento;  // Evento de hundimiento
+        
         public String Nombre
         {
             get { return nombre; }
@@ -26,14 +27,8 @@ namespace Hada
 
         public int NumDanyos
         {
-            get
-            {
-                return numDanyos;
-            }
-            set
-            {
-                numDanyos = value;
-            }
+            get{ return numDanyos; }
+            set{ numDanyos = value; }
         }
 
         public Barco(String nombre, int longitud, char orientacion, Coordenada c)
@@ -45,31 +40,42 @@ namespace Hada
             int inicColumna = c.Columna;
 
             if (longitud <= 0)
-                Console.WriteLine("Longitud no puede ser menor o igual a 0");
-
-            if (orientacion != 'h' && orientacion != 'v')
-                Console.WriteLine("La orientacion solo puede ser \'h\' o \'v\'");
-            if (orientacion == 'h')
             {
-                for (int i = 0; i < longitud - 1; i++)
+                Console.WriteLine("Longitud no puede ser menor o igual a 0");
+                for (int i = 0; i < longitud ; i++)
                 {
                     Coordenada nuevaCoordenada = new Coordenada(inicFila, inicColumna + i);
                     CoordenadasBarcos[nuevaCoordenada] = nombre;
                 }
             }
-            else
-            {
-                for (int i = 0; i < longitud - 1; i++)
+            else {
+                if (orientacion != 'h' && orientacion != 'v')
                 {
-                    Coordenada nuevaCoordenada = new Coordenada(inicFila + i, inicColumna);
-                    CoordenadasBarcos[nuevaCoordenada] = nombre;
+                    Console.WriteLine("La orientacion solo puede ser \'h\' o \'v\'");
+                    Coordenada nuevaCoordenada = new Coordenada(inicFila, inicColumna);
+                }
+                else if (orientacion == 'h')
+                {
+                    for (int i = 0; i < longitud; i++)
+                    {
+                        Coordenada nuevaCoordenada = new Coordenada(inicFila, inicColumna + i);
+                        CoordenadasBarcos[nuevaCoordenada] = nombre;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < longitud; i++)
+                    {
+                        Coordenada nuevaCoordenada = new Coordenada(inicFila + i, inicColumna);
+                        CoordenadasBarcos[nuevaCoordenada] = nombre;
+                    }
                 }
 
             }
         }
         public void Disparo(Coordenada c)
         {
-            if (etiqueta.ContainsKey(c))
+            if (CoordenadasBarcos.ContainsKey(c) && !(CoordenadasBarcos[c].EndsWith("_T")))
             {
                 CoordenadasBarcos[c] += "_T";
                 NumDanyos++;
@@ -81,7 +87,7 @@ namespace Hada
             }
 
         }
-        protected virtual void OnHundimiento()
+        protected virtual void OnHundimiento()              // Para evento del hundiento
         {
             Hundimiento?.Invoke(this, EventArgs.Empty);
         }
@@ -89,14 +95,19 @@ namespace Hada
         public bool hundido()
         {
             // Verificar si todas las etiquetas coinciden con el nombre del barco más el sufijo "_T"
-            return CoordenadasBarcos.Values.All(etiqueta => etiqueta == $"{nombre}_T");
+            return CoordenadasBarcos.Values.All(value => value.EndsWith("_T"));
         }
 
         public string toString()
         {
-            string estado = NumDanyos == CoordenadasBarcos.Count ? "TRUE" : "FALSE";
+            string estado;
 
-            string infoCoordenadas = string.Join(" ", CoordenadasBarcos.Select(kv => $"({kv.Key.Fila},{kv.Key.Columna}):{kv.Value}"));
+            if (!hundido())
+                estado = "TRUE";
+            else
+                estado = "FALSE";
+
+            string infoCoordenadas = string.Join(" ", CoordenadasBarcos.Select(barco => $"({barco.Key.Fila},{barco.Key.Columna}):{barco.Value}"));
 
             return $"[{Nombre}] - DAÑOS: [{NumDanyos}] - HUNDIDO: [{estado}] - COORDENADAS: [{infoCoordenadas}]";
 
