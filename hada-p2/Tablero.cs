@@ -32,6 +32,7 @@ namespace Hada
         private Dictionary<Coordenada, string> casillasTablero; // AGUA/NOMBRE_BARCO/NOMBRE_BARCO_T
 
         public event EventHandler<EventArgs> eventoFinPartida;
+
         public Tablero(int tamTablero,  List<Barco> barcos)
         {
             this.TamTablero = tamTablero;
@@ -140,7 +141,7 @@ namespace Hada
             }
         }
 
-        private void cunadoEventoTocado()
+        protected virtual void OnFinPartida()
         {
             eventoFinPartida?.Invoke(this, EventArgs.Empty);
         }
@@ -174,7 +175,6 @@ namespace Hada
 
         private void cuandoEventoTocado(object sender, TocadoArgs e)
         {
-            coordenadasTocadas.Add(e.CoordenadaTocada);
             Console.WriteLine($"TABLERO: Barco [{e.Nombre}] tocado en Coordenada: {e.CoordenadaTocada}");
         }
 

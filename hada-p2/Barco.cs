@@ -99,23 +99,5 @@ namespace Hada
             return $"[{Nombre}] - DAÑOS: [{NumDanyos}] - HUNDIDO: [{estado}] - COORDENADAS: [{infoCoordenadas}]";
 
         }
-
-        public class TocadoArgs : EventArgs
-        {
-            public Coordenada CoordenadaTocada { get; }
-
-            public TocadoArgs(Coordenada coordenada)
-            {
-                CoordenadaTocada = coordenada;
-            }
-        }
-
-        // Argumentos para el evento de hundido
-        public class HundidoArgs : EventArgs
-        {
-            public HundidoArgs()
-            {
-            }
-        }
     }
 }

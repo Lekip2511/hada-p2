@@ -6,13 +6,13 @@ namespace Hada
     public class TocadoArgs : EventArgs
     {
         public string Nombre { get; set; }
-        public string CoordenadaImpacto { get; set; }
+        public string CoordenadaTocada { get; set; }
         public string Etiqueta { get; set; }
 
-        public TocadoArgs(string nombre, string coordenadaImpacto, string etiqueta)
+        public TocadoArgs(string nombre, string coordenadaTocada, string etiqueta)
         {
             Nombre = nombre;
-            CoordenadaImpacto = coordenadaImpacto;
+            CoordenadaTocada = coordenadaTocada;
             Etiqueta = etiqueta;
         }
     }
