@@ -13,25 +13,13 @@ namespace Hada
         private int columna;    // Propiedad de la clase 
         public int Fila
         {
-            get
-            {
-                return fila;
-            }
-            set
-            {
-                fila = value;
-            }
+            get{ return fila; }
+            set{ fila = value; }
         }
         public int Columna
         {
-            get
-            {
-                return columna;
-            }
-            set
-            {
-                columna = value;
-            }
+            get { return columna; }
+            set { columna = value; }
         }
         // Constructor por defecto
         public Coordenada()

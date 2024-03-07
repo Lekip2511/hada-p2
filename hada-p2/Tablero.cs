@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Hada
 {
     public class Tablero
     {
         private int tamTablero;
-        private List<Coordenada> coordenadasDisparadas;
-        private HashSet<Coordenada> coordenadasTocadas;
-        private List<Barco> barcos;
-        private HashSet<Barco> barcosEliminados;
-        private Dictionary<Coordenada, string> casillasTablero;
-
-        public event EventHandler<EventArgs> eventoFinPartida;
 
         public int TamTablero
         {
@@ -21,6 +15,7 @@ namespace Hada
             {
                 if (value < 4 || value > 9)
                 {
+                    tamTablero = 4;
                     Console.WriteLine("El tamaño del tablero debe estar entre 4 y 9.");
                 }
                 else
@@ -30,14 +25,28 @@ namespace Hada
             }
         }
 
+        private List<Coordenada> coordenadasDisparadas;
+        private List<Coordenada> coordenadasTocadas;            // No pueden haber repetidos
+        private List<Barco> barcos;                             // Se utilizarán para inicializar las casillas del tablero
+        private List<Barco> barcosEliminados;                   // No pueden haber repetidos
+        private Dictionary<Coordenada, string> casillasTablero; // AGUA/NOMBRE_BARCO/NOMBRE_BARCO_T
+
+        public event EventHandler<EventArgs> eventoFinPartida;
         public Tablero(int tamTablero,  List<Barco> barcos)
         {
-            TamTablero = tamTablero;
-            coordenadasDisparadas = new List<Coordenada>();
-            coordenadasTocadas = new HashSet<Coordenada>();
+            this.TamTablero = tamTablero;
+            this.coordenadasDisparadas = new List<Coordenada>();
+            this.coordenadasTocadas = new List<Coordenada>();
             this.barcos = barcos;
-            barcosEliminados = new HashSet<Barco>();
-            casillasTablero = new Dictionary<Coordenada, string>();
+            this.barcosEliminados = new List<Barco>();
+            this.casillasTablero = new Dictionary<Coordenada, string>();
+
+            // Inicializar los eventos de tocado y hundido para cada barco
+            foreach (var barco in this.barcos)
+            {
+                barco.eventoTocado += cuandoEventoTocado;
+                barco.eventoHundido += cuandoEventoHundido;
+            }
 
             // Inicializar las casillas del tablero
             inicializaCasillasTablero();
@@ -107,6 +116,8 @@ namespace Hada
 
         private void inicializaCasillasTablero()
         {
+
+            // Pone los nombre de los barcos a las casillas
             foreach (var barco in barcos)
             {
                 foreach (var coordenada in barco.CoordenadasBarcos.Keys)
@@ -129,9 +140,54 @@ namespace Hada
             }
         }
 
-        protected virtual void OnFinPartida()
+        private void cunadoEventoTocado()
         {
             eventoFinPartida?.Invoke(this, EventArgs.Empty);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var barco in barcos)
+            {
+                sb.AppendLine(barco.ToString());
+            }
+
+            sb.AppendLine("Coordenadas Disparadas:");
+            foreach (var coordenada in coordenadasDisparadas)
+            {
+                sb.AppendLine(coordenada.ToString());
+            }
+
+            sb.AppendLine("Coordenadas Tocadas:");
+            foreach (var coordenada in coordenadasTocadas)
+            {
+                sb.AppendLine(coordenada.ToString());
+            }
+
+            sb.AppendLine("Tablero:");
+            sb.AppendLine(DibujarTablero());
+
+            return sb.ToString();
+        }
+
+        private void cuandoEventoTocado(object sender, TocadoArgs e)
+        {
+            coordenadasTocadas.Add(e.CoordenadaTocada);
+            Console.WriteLine($"TABLERO: Barco [{e.Nombre}] tocado en Coordenada: {e.CoordenadaTocada}");
+        }
+
+        private void cuandoEventoHundido(object sender, HundidoArgs e)
+        {
+            Barco barcoHundido = sender as Barco;
+            barcosEliminados.Add(barcoHundido);
+            Console.WriteLine($"TABLERO: Barco [{barcoHundido.Nombre}] hundido!!");
+
+            if (barcosEliminados.Count == barcos.Count)
+            {
+                eventoFinPartida?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

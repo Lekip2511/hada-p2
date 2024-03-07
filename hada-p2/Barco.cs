@@ -12,23 +12,15 @@ namespace Hada
     public class Barco
     {
 
-        public event EventHandler Hundimiento;  // Evento de hundimiento
-        public event EventHandler Tocado;  // Evento de tocado
+        public event EventHandler<TocadoArgs> eventoTocado;
+        public event EventHandler<HundidoArgs> eventoHundido;
 
         public Dictionary<Coordenada, String> CoordenadasBarcos { get; private set; }
 
         
-        public String Nombre
-        {
-            get;
-            set;
-        }
+        public String Nombre { get; set; }
 
-        public int NumDanyos
-        {
-            get;
-            set;
-        }
+        public int NumDanyos { get;  set; }
 
         public Barco(String nombre, int longitud, char orientacion, Coordenada c)
         {
@@ -74,19 +66,18 @@ namespace Hada
         }
         public void Disparo(Coordenada c)
         {
-            if (CoordenadasBarcos.ContainsKey(c) && !(CoordenadasBarcos[c].EndsWith("_T")))
+            if (CoordenadasBarcos.ContainsKey(c))
             {
                 CoordenadasBarcos[c] += "_T";
                 NumDanyos++;
 
-                Tocado?.Invoke(this, EventArgs.Empty);                  // Lanzar evento tocado
+                eventoTocado?.Invoke(this, new TocadoArgs(c));                  // Lanzar evento tocado
 
-                if (NumDanyos >= CoordenadasBarcos.Count)
-                    Hundimiento?.Invoke(this, EventArgs.Empty);         // Evento hundimiento
+                if (hundido())
+                    eventoHundido?.Invoke(this, new HundidoArgs());         // Evento hundimiento
             }
 
         }
-
 
         public bool hundido()
         {
@@ -107,6 +98,24 @@ namespace Hada
 
             return $"[{Nombre}] - DAÑOS: [{NumDanyos}] - HUNDIDO: [{estado}] - COORDENADAS: [{infoCoordenadas}]";
 
+        }
+
+        public class TocadoArgs : EventArgs
+        {
+            public Coordenada CoordenadaTocada { get; }
+
+            public TocadoArgs(Coordenada coordenada)
+            {
+                CoordenadaTocada = coordenada;
+            }
+        }
+
+        // Argumentos para el evento de hundido
+        public class HundidoArgs : EventArgs
+        {
+            public HundidoArgs()
+            {
+            }
         }
     }
 }
