@@ -83,7 +83,7 @@ namespace HADA
 
                             if (barcosEliminados.Count == barcos.Count)
                             {
-                                OnFinPartida();
+                                eventoFinPartida(this, EventArgs.Empty);
                             }
                         }
                         else
@@ -168,10 +168,6 @@ namespace HADA
 
         }
 
-        protected virtual void OnFinPartida()
-        {
-            eventoFinPartida?.Invoke(this, EventArgs.Empty);
-        }
 
         public override string ToString()
         {
@@ -199,7 +195,7 @@ namespace HADA
 
             if (barcosEliminados.Count == barcos.Count)
             {
-                eventoFinPartida?.Invoke(this, EventArgs.Empty);
+                eventoFinPartida(this, EventArgs.Empty);
             }
         }
     }

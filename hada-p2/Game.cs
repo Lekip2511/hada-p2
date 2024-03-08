@@ -23,17 +23,19 @@ namespace HADA
 
             var tablero = new Tablero(7, barcos);
 
+            tablero.eventoFinPartida += cuandoFinPartida;
+
             // Bucle del juego
             while (!finPartida)
             {
                 // Pedir al usuario que introduzca una coordenada
-                Console.WriteLine("Introduce una coordenada (fila,columna):");
+                Console.WriteLine("Introduce la coordenada a la que disparar FILA,COLUMNA ('S' para Salir):");
                 string entrada = Console.ReadLine();
 
                 // Comprobar si el usuario quiere salir del juego
                 if (entrada.ToLower() == "s")
                 {
-                    Console.WriteLine("Has salido del juego.");
+                    Console.WriteLine("Has salido del juego.");                 // Evento juego terminado
                     break;
                 }
 
@@ -51,12 +53,15 @@ namespace HADA
                 Console.WriteLine("\n" + tablero.ToString() + "\n");
 
                 // Comprobar si todos los barcos están hundidos
-                if (tablero.barcosEliminados.Count == barcos.Count)
-                {
-                    Console.WriteLine("¡Todos los barcos han sido hundidos!");  // Aquí se tiene que mandar el evento de ganado (partida finalizada)
-                    break;
-                }
+
             }
+
+            Console.WriteLine("PARTIDA TERMINADA :)");
+        }
+
+        private void cuandoFinPartida(object sender, EventArgs e)
+        {
+            finPartida = true;
         }
     }
 }
