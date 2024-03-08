@@ -52,7 +52,7 @@ namespace Hada
                 // Comprobar si todos los barcos están hundidos
                 if (tablero.barcosEliminados.Count == barcos.Count)
                 {
-                    Console.WriteLine("¡Todos los barcos han sido hundidos!");
+                    Console.WriteLine("¡Todos los barcos han sido hundidos!");  // Aquí se tiene que mandar el evento de ganado (partida finalizada)
                     break;
                 }
             }
