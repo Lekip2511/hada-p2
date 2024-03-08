@@ -63,7 +63,7 @@ namespace Hada
             
             Console.WriteLine($"Disparando a la coordenada ({c.Fila},{c.Columna})...");
 
-            if (casillasTablero.ContainsKey(c))
+            if (casillasTablero[c] == "AGUA")    // DA ERROR XDDD
             {
                 coordenadasDisparadas.Add(c);
                 coordenadasTocadas.Add(c);
@@ -107,7 +107,7 @@ namespace Hada
                 {
                     var coordenada = new Coordenada(fila, columna);
                     string estadoCasilla = casillasTablero.ContainsKey(coordenada) ? casillasTablero[coordenada] : "AGUA";
-                    tableroString += estadoCasilla.PadRight(10); // Ajustar la anchura de la casilla
+                    tableroString += "[" + estadoCasilla.PadRight(10) + "]"; // Ajustar la anchura de la casilla
                 }
                 tableroString += "\n"; // Nueva línea después de cada fila
             }
