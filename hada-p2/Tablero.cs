@@ -121,8 +121,8 @@ namespace Hada
                 for (int columna = 0; columna < tamTablero; columna++)
                 {
                     var coordenada = new Coordenada(fila, columna);
-                    string estadoCasilla = casillasTablero.ContainsKey(coordenada) ? casillasTablero[coordenada] : "AGUA";
-                    tableroString += "[" + estadoCasilla.PadRight(10) + "]"; // Ajustar la anchura de la casilla
+                    string estadoCasilla = casillasTablero.ContainsKey(coordenada) ? casillasTablero[coordenada] : "AGUA";      // casillasTablero.ContainsKey(coordenada) nunca da true
+                    tableroString += "[" + estadoCasilla.PadRight(2) + "]"; // Ajustar la anchura de la casilla
                 }
                 tableroString += "\n"; // Nueva línea después de cada fila
             }
