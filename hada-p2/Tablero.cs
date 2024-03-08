@@ -78,7 +78,9 @@ namespace Hada
                         if (barco.NumDanyos == barco.CoordenadasBarcos.Count)
                         {
                             barcosEliminados.Add(barco);
-                            Console.WriteLine($"¡Hundido el barco {barco.Nombre}!");
+                            
+                            Console.WriteLine($"¡Hundido el barco {barco.Nombre}!");        // Aquí lanzar evento de hundido
+
                             if (barcosEliminados.Count == barcos.Count)
                             {
                                 OnFinPartida();
@@ -142,7 +144,7 @@ namespace Hada
                     String estadoCasilla;
                     
                     if (EstaTocado(coordenada))
-                        estadoCasilla = "BARCO";        // Error, no sale el nombre
+                        estadoCasilla = casillasTablero[coordenada];        // Error, no sale el nombre
                     else
                         estadoCasilla = "AGUA";
                     
@@ -175,24 +177,10 @@ namespace Hada
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (var barco in barcos)
-            {
-                sb.AppendLine(barco.ToString());
+            foreach(Barco barco in barcos){
+                Console.WriteLine(barco.toString());
             }
 
-            sb.AppendLine("Coordenadas Disparadas:");
-            foreach (var coordenada in coordenadasDisparadas)
-            {
-                sb.AppendLine(coordenada.ToString());
-            }
-
-            sb.AppendLine("Coordenadas Tocadas:");
-            foreach (var coordenada in coordenadasTocadas)
-            {
-                sb.AppendLine(coordenada.ToString());
-            }
-
-            sb.AppendLine("Tablero:");
             sb.AppendLine(DibujarTablero());
 
             return sb.ToString();

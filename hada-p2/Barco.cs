@@ -81,8 +81,8 @@ namespace Hada
 
         public bool hundido()
         {
-            // Verificar si todas las etiquetas coinciden con el nombre del barco más el sufijo "_T"
-            return CoordenadasBarcos.Values.All(value => value.EndsWith("_T"));
+
+            return (NumDanyos == CoordenadasBarcos.Count);
         }
 
         public string toString()
@@ -90,9 +90,9 @@ namespace Hada
             string estado;
 
             if (!hundido())
-                estado = "TRUE";
-            else
                 estado = "FALSE";
+            else
+                estado = "TRUE";
 
             string infoCoordenadas = string.Join(" ", CoordenadasBarcos.Select(barco => $"({barco.Key.Fila},{barco.Key.Columna}):{barco.Value}"));
 

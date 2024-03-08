@@ -20,7 +20,7 @@ namespace Hada
             barcos.Add(new Barco("Barco1", 3, 'h', new Coordenada(0, 0)));
             barcos.Add(new Barco("Barco2", 4, 'v', new Coordenada(3, 3)));
 
-            var tablero = new Tablero(9, barcos);
+            var tablero = new Tablero(7, barcos);
 
             // Bucle del juego
             while (!finPartida)
@@ -47,7 +47,7 @@ namespace Hada
                 // Ejecutar el método Disparar del tablero con la coordenada introducida
                 tablero.Disparar(new Coordenada(fila, columna));
 
-                Console.WriteLine("\n\n" + tablero.DibujarTablero() + "\n\n");
+                Console.WriteLine("\n" + tablero.ToString() + "\n");
 
                 // Comprobar si todos los barcos están hundidos
                 if (tablero.barcosEliminados.Count == barcos.Count)
