@@ -15,94 +15,47 @@ namespace Hada
         public void gameLoop()
         {
             // Inicializar tablero y barcos
-            Tablero tablero = InicializarTablero();
-            List<Barco> barcos = InicializarBarcos();
+
+            var barcos = new List<Barco>();
+            barcos.Add(new Barco("Barco1", 3, 'h', new Coordenada(0, 0)));
+            barcos.Add(new Barco("Barco2", 4, 'v', new Coordenada(3, 3)));
+
+            var tablero = new Tablero(9, barcos);
 
             // Bucle del juego
             while (!finPartida)
             {
                 // Pedir al usuario que introduzca una coordenada
-                Coordenada coordenada = PedirCoordenada();
-
-                // Disparar en el tablero
-                tablero.Disparar(coordenada);
-
-                // Comprobar si la partida ha terminado
-                if (TodosBarcosHundidos(barcos) || UsuarioQuiereSalir())
-                {
-                    finPartida = true;
-                }
-            }
-
-            Console.WriteLine("Juego terminado.");
-        }
-
-       
-
-        private List<Barco> InicializarBarcos()
-        {
-            // Crea e inicializa los barcos
-            List<Barco> barcos = new List<Barco>();
-
-            // Ejemplo: crear un barco llamado "Barco1" de longitud 3 en la coordenada (0,0)
-            Barco barco1 = new Barco("Barco1", 3, 'h', new Coordenada(0, 0));
-            barcos.Add(barco1);
-
-            // Agregar más barcos según sea necesario...
-
-            return barcos;
-        }
-
-        private Tablero InicializarTablero()
-        {
-            List<Barco> barcos = InicializarBarcos();
-            // Crea e inicializa el tablero
-            Tablero tablero = new Tablero(10, barcos); 
-            return tablero;
-        }
-
-        private Coordenada PedirCoordenada()
-        {
-            Coordenada coordenada = null;
-            bool formatoCorrecto = false;
-
-            while (!formatoCorrecto)
-            {
-                Console.WriteLine("Introduce una coordenada (formato: NUMERO,NUMERO): ");
+                Console.WriteLine("Introduce una coordenada (fila,columna):");
                 string entrada = Console.ReadLine();
-                string[] partes = entrada.Split(',');
 
-                if (partes.Length == 2 && int.TryParse(partes[0], out int fila) && int.TryParse(partes[1], out int columna))
+                // Comprobar si el usuario quiere salir del juego
+                if (entrada.ToLower() == "s")
                 {
-                    coordenada = new Coordenada(fila, columna);
-                    formatoCorrecto = true;
+                    Console.WriteLine("Has salido del juego.");
+                    break;
                 }
-                else
+
+                // Comprobar el formato de la entrada
+                string[] partes = entrada.Split(',');
+                if (partes.Length != 2 || !int.TryParse(partes[0], out int fila) || !int.TryParse(partes[1], out int columna))
                 {
                     Console.WriteLine("Formato de coordenada incorrecto. Inténtalo de nuevo.");
+                    continue;
                 }
-            }
 
-            return coordenada;
-        }
+                // Ejecutar el método Disparar del tablero con la coordenada introducida
+                tablero.Disparar(new Coordenada(fila, columna));
 
-        private bool TodosBarcosHundidos(List<Barco> barcos)
-        {
-            foreach (var barco in barcos)
-            {
-                if (barco.hundido())
+                tablero.DibujarTablero();
+
+                // Comprobar si todos los barcos están hundidos
+                if (tablero.barcosEliminados.Count == barcos.Count)
                 {
-                    return false;
+                    Console.WriteLine("¡Todos los barcos han sido hundidos!");
+                    break;
                 }
             }
-            return true;
-        }
-
-        private bool UsuarioQuiereSalir()
-        {
-            Console.WriteLine("¿Quieres salir del juego? (s/n): ");
-            string respuesta = Console.ReadLine();
-            return respuesta.ToLower() == "s";
         }
     }
 }

@@ -28,8 +28,8 @@ namespace Hada
         private List<Coordenada> coordenadasDisparadas;
         private List<Coordenada> coordenadasTocadas;            // No pueden haber repetidos
         private List<Barco> barcos;                             // Se utilizarán para inicializar las casillas del tablero
-        private List<Barco> barcosEliminados;                   // No pueden haber repetidos
         private Dictionary<Coordenada, string> casillasTablero; // AGUA/NOMBRE_BARCO/NOMBRE_BARCO_T
+        public List<Barco> barcosEliminados;                    // No pueden haber repetidos
 
         public event EventHandler<EventArgs> eventoFinPartida;
 
@@ -117,28 +117,25 @@ namespace Hada
 
         private void inicializaCasillasTablero()
         {
+            for (int fila = 0; fila < tamTablero; fila++)
+            {
+                for (int columna = 0; columna < tamTablero; columna++)
+                {
+                    var coordenada = new Coordenada(fila, columna);
+                    casillasTablero.Add(coordenada, "AGUA");
+                }
+            }
 
             // Pone los nombre de los barcos a las casillas
             foreach (var barco in barcos)
             {
                 foreach (var coordenada in barco.CoordenadasBarcos.Keys)
                 {
+                    casillasTablero.Remove(coordenada);
                     casillasTablero[coordenada] = barco.Nombre;
                 }
             }
-
-            // Rellenar las casillas restantes con AGUA
-            for (int fila = 0; fila < tamTablero; fila++)
-            {
-                for (int columna = 0; columna < tamTablero; columna++)
-                {
-                    var coordenada = new Coordenada(fila, columna);
-                    if (!casillasTablero.ContainsKey(coordenada))
-                    {
-                        casillasTablero.Add(coordenada, "AGUA");
-                    }
-                }
-            }
+            
         }
 
         protected virtual void OnFinPartida()
@@ -177,7 +174,7 @@ namespace Hada
         {
             Console.WriteLine($"TABLERO: Barco [{e.Nombre}] tocado en Coordenada: {e.CoordenadaTocada}");
         }
-
+        
         private void cuandoEventoHundido(object sender, HundidoArgs e)
         {
             Barco barcoHundido = sender as Barco;

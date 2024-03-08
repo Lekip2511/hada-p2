@@ -5,11 +5,13 @@ namespace Hada
     // TocadoArgs
     public class TocadoArgs : EventArgs
     {
+        private Coordenada c;
+
         public string Nombre { get; set; }
-        public string CoordenadaTocada { get; set; }
+        public Coordenada CoordenadaTocada { get; set; }
         public string Etiqueta { get; set; }
 
-        public TocadoArgs(string nombre, string coordenadaTocada, string etiqueta)
+        public TocadoArgs(string nombre, Coordenada coordenadaTocada, string etiqueta)
         {
             Nombre = nombre;
             CoordenadaTocada = coordenadaTocada;
@@ -25,6 +27,7 @@ namespace Hada
         {
             Nombre = nombre;
         }
+
     }
 
 }

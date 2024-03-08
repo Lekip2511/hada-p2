@@ -71,10 +71,10 @@ namespace Hada
                 CoordenadasBarcos[c] += "_T";
                 NumDanyos++;
 
-                eventoTocado?.Invoke(this, new TocadoArgs(c));                  // Lanzar evento tocado
+                eventoTocado?.Invoke(this, new TocadoArgs(Nombre, c, CoordenadasBarcos[c]));                  // Lanzar evento tocado
 
                 if (hundido())
-                    eventoHundido?.Invoke(this, new HundidoArgs());         // Evento hundimiento
+                    eventoHundido?.Invoke(this, new HundidoArgs(Nombre));         // Evento hundimiento
             }
 
         }
