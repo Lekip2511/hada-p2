@@ -44,9 +44,10 @@ namespace Hada
                     continue;
                 }
 
-                Console.WriteLine("\n\n" + tablero.DibujarTablero() + "\n\n");
                 // Ejecutar el método Disparar del tablero con la coordenada introducida
                 tablero.Disparar(new Coordenada(fila, columna));
+
+                Console.WriteLine("\n\n" + tablero.DibujarTablero() + "\n\n");
 
                 // Comprobar si todos los barcos están hundidos
                 if (tablero.barcosEliminados.Count == barcos.Count)

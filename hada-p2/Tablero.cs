@@ -128,6 +128,7 @@ namespace Hada
             return false;
         }
 
+
         public string DibujarTablero()
         {
             string tableroString = "";
@@ -137,7 +138,13 @@ namespace Hada
                 for (int columna = 0; columna < tamTablero; columna++)
                 {
                     var coordenada = new Coordenada(fila, columna);
-                    string estadoCasilla = coordenadasTocadas.Contains(coordenada) ? casillasTablero[coordenada] : "AGUA";      // PROBLEMA; siempre escribe agua
+
+                    String estadoCasilla;
+                    
+                    if (EstaTocado(coordenada))
+                        estadoCasilla = "BARCO";        // Error, no sale el nombre
+                    else
+                        estadoCasilla = "AGUA";
                     
                     tableroString += "[" + estadoCasilla.PadRight(2) + "]"; // Ajustar la anchura de la casilla
                 }
