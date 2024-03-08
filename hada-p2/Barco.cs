@@ -73,7 +73,7 @@ namespace Hada
 
                 eventoTocado?.Invoke(this, new TocadoArgs(Nombre, c, CoordenadasBarcos[c]));                  // Lanzar evento tocado
 
-                if (hundido())
+                if (hundido())  
                     eventoHundido?.Invoke(this, new HundidoArgs(Nombre));         // Evento hundimiento
             }
 

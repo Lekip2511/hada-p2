@@ -62,16 +62,14 @@ namespace Hada
             }
             
             Console.WriteLine($"Disparando a la coordenada ({c.Fila},{c.Columna})...");
-
-            if (casillasTablero[c] == "AGUA")    // DA ERROR XDDD
-            {
-                coordenadasDisparadas.Add(c);
-                coordenadasTocadas.Add(c);
-
-                string nombreBarco = casillasTablero[c];
+            
+            //        Abajo no | entra :(
+            //                 V                                  
+            if (!coordenadasTocadas.Contains(c) && LeHaDado(c) != "no")     // Se mete aun que le hayan dado antes xd
+                {
                 foreach (var barco in barcos)
                 {
-                    if (barco.Nombre == nombreBarco)
+                    if (barco.Nombre == LeHaDado(c))
                     {
                         barco.NumDanyos++;
                         if (barco.NumDanyos == barco.CoordenadasBarcos.Count)
@@ -97,6 +95,23 @@ namespace Hada
             }
         }
 
+        private String LeHaDado(Coordenada c)
+        {
+            foreach (var barco in barcos)
+            {
+                foreach (var coordenada in barco.CoordenadasBarcos.Keys)
+                {
+                    if (coordenada.Fila == c.Fila && coordenada.Columna == c.Columna) {
+                        coordenadasDisparadas.Add(c);
+                        coordenadasTocadas.Add(c);
+                        string nombreBarco = barco.Nombre;
+                        return nombreBarco;
+                    }
+                }
+            }
+            return "no";
+        }
+
         public string DibujarTablero()
         {
             string tableroString = "";
@@ -117,25 +132,23 @@ namespace Hada
 
         private void inicializaCasillasTablero()
         {
-            for (int fila = 0; fila < tamTablero; fila++)
+            for (int fila = 0; fila < TamTablero; fila++)
             {
-                for (int columna = 0; columna < tamTablero; columna++)
+                for (int columna = 0; columna < TamTablero; columna++)
                 {
-                    var coordenada = new Coordenada(fila, columna);
+                    Coordenada coordenada = new Coordenada(fila, columna);
                     casillasTablero.Add(coordenada, "AGUA");
                 }
             }
 
-            // Pone los nombre de los barcos a las casillas
             foreach (var barco in barcos)
             {
                 foreach (var coordenada in barco.CoordenadasBarcos.Keys)
                 {
-                    casillasTablero.Remove(coordenada);
                     casillasTablero[coordenada] = barco.Nombre;
                 }
             }
-            
+
         }
 
         protected virtual void OnFinPartida()
