@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hada
+namespace HADA
 {
     public class Tablero
     {
@@ -144,11 +144,11 @@ namespace Hada
                     String estadoCasilla;
                     
                     if (EstaTocado(coordenada))
-                        estadoCasilla = casillasTablero[coordenada];        // Error, no sale el nombre
+                        estadoCasilla = casillasTablero[coordenada];                                            // Error, no sale el nombre
                     else
                         estadoCasilla = "AGUA";
                     
-                    tableroString += "[" + estadoCasilla.PadRight(2) + "]"; // Ajustar la anchura de la casilla
+                    tableroString += ("[" + estadoCasilla + "]").PadRight(8); // Ajustar la anchura de la casilla
                 }
                 tableroString += "\n"; // Nueva línea después de cada fila
             }

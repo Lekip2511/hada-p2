@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hada
+namespace HADA
 {
     public class Coordenada
     {
@@ -61,9 +61,17 @@ namespace Hada
             return this.Fila.GetHashCode() ^ this.Columna.GetHashCode();
         }
 
-        public bool Equals(Coordenada o)
+        public override bool Equals(object obj)
         {
-            return (o.Columna == this.Columna && o.Fila == this.Fila);
+            return Equalsa(obj);
+        }
+        public bool Equalsa(object o)
+        {
+            if (GetType() != o.GetType() && o == null)
+                return false;
+
+            Coordenada otherCoordenada = (Coordenada)o;
+            return this.Fila == otherCoordenada.Fila && this.Columna == otherCoordenada.Columna;
         }
     }
 }

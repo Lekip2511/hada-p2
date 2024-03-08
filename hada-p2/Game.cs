@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Hada
+namespace HADA
 {
     public class Game
     {
@@ -17,8 +17,9 @@ namespace Hada
             // Inicializar tablero y barcos
 
             var barcos = new List<Barco>();
-            barcos.Add(new Barco("Barco1", 3, 'h', new Coordenada(0, 0)));
-            barcos.Add(new Barco("Barco2", 4, 'v', new Coordenada(3, 3)));
+            barcos.Add(new Barco("Titan", 3, 'h', new Coordenada(0, 0)));
+            barcos.Add(new Barco("Bestia", 4, 'v', new Coordenada(3, 3)));
+            barcos.Add(new Barco("Fiera", 2, 'v', new Coordenada(5,5)));
 
             var tablero = new Tablero(7, barcos);
 

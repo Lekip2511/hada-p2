@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Hada
+namespace HADA
 {
     // TocadoArgs
     public class TocadoArgs : EventArgs

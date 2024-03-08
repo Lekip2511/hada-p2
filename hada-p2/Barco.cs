@@ -7,7 +7,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hada
+namespace HADA
 {
     public class Barco
     {
@@ -96,7 +96,7 @@ namespace Hada
 
             string infoCoordenadas = string.Join(" ", CoordenadasBarcos.Select(barco => $"({barco.Key.Fila},{barco.Key.Columna}):{barco.Value}"));
 
-            return $"[{Nombre}] - DAÑOS: [{NumDanyos}] - HUNDIDO: [{estado}] - COORDENADAS: [{infoCoordenadas}]";
+            return $"[{Nombre.PadRight(6)}] - DAÑOS: [{NumDanyos}] - HUNDIDO: [{estado}] - COORDENADAS: [{infoCoordenadas}]";
 
         }
     }
