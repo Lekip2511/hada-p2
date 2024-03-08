@@ -62,11 +62,14 @@ namespace Hada
             }
             
             Console.WriteLine($"Disparando a la coordenada ({c.Fila},{c.Columna})...");
+
+            if (EstaTocado(c))
+            {
+                Console.WriteLine("Barco ya tocado");    
+            }
             
-            //        Abajo no | entra :(
-            //                 V                                  
-            if (!coordenadasTocadas.Contains(c) && LeHaDado(c) != "no")     // Se mete aun que le hayan dado antes xd
-                {
+            else if (LeHaDado(c) != "no")     // Se mete aun que le hayan dado antes xd
+            {
                 foreach (var barco in barcos)
                 {
                     if (barco.Nombre == LeHaDado(c))
@@ -91,7 +94,7 @@ namespace Hada
             }
             else
             {
-                Console.WriteLine("Agua.");
+                Console.WriteLine("Agua");
             }
         }
 
@@ -112,6 +115,19 @@ namespace Hada
             return "no";
         }
 
+        private bool EstaTocado(Coordenada c)
+        {
+            foreach (var cor in coordenadasTocadas)
+            {
+                if(c.Fila == cor.Fila && c.Columna == cor.Columna)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public string DibujarTablero()
         {
             string tableroString = "";
@@ -121,7 +137,8 @@ namespace Hada
                 for (int columna = 0; columna < tamTablero; columna++)
                 {
                     var coordenada = new Coordenada(fila, columna);
-                    string estadoCasilla = casillasTablero.ContainsKey(coordenada) ? casillasTablero[coordenada] : "AGUA";      // casillasTablero.ContainsKey(coordenada) nunca da true
+                    string estadoCasilla = coordenadasTocadas.Contains(coordenada) ? casillasTablero[coordenada] : "AGUA";      // PROBLEMA; siempre escribe agua
+                    
                     tableroString += "[" + estadoCasilla.PadRight(2) + "]"; // Ajustar la anchura de la casilla
                 }
                 tableroString += "\n"; // Nueva línea después de cada fila
@@ -132,15 +149,6 @@ namespace Hada
 
         private void inicializaCasillasTablero()
         {
-            for (int fila = 0; fila < TamTablero; fila++)
-            {
-                for (int columna = 0; columna < TamTablero; columna++)
-                {
-                    Coordenada coordenada = new Coordenada(fila, columna);
-                    casillasTablero.Add(coordenada, "AGUA");
-                }
-            }
-
             foreach (var barco in barcos)
             {
                 foreach (var coordenada in barco.CoordenadasBarcos.Keys)

@@ -44,7 +44,7 @@ namespace Hada
                     continue;
                 }
 
-                Console.WriteLine(tablero.DibujarTablero());
+                Console.WriteLine("\n\n" + tablero.DibujarTablero() + "\n\n");
                 // Ejecutar el método Disparar del tablero con la coordenada introducida
                 tablero.Disparar(new Coordenada(fila, columna));
 
